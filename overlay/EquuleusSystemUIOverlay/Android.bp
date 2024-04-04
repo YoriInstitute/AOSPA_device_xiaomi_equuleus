@@ -5,7 +5,7 @@
 //
 
 runtime_resource_overlay {
-    name: "BerylliumSettingsOverlay",
+    name: "EquuleusSystemUIOverlay",
     sdk_version: "current",
     vendor: true,
 }

@@ -20,6 +20,7 @@ PRODUCT_PACKAGES += \
     libqcomvisualizer \
     libqcomvoiceprocessing \
     libtinycompress \
+    libpiex_shim \
     libvolumelistener
 
 PRODUCT_COPY_FILES += \
@@ -228,7 +229,7 @@ PRODUCT_SYSTEM_PROPERTIES += \
 
 # Fingerprint
 PRODUCT_PACKAGES += \
-    android.hardware.biometrics.fingerprint@2.3-service.xiaomi_beryllium
+    android.hardware.biometrics.fingerprint@2.3-service.xiaomi_equuleus
 
 # FM
 PRODUCT_VENDOR_PROPERTIES += \
@@ -302,7 +303,7 @@ PRODUCT_PACKAGES += \
 
 # Lights
 PRODUCT_PACKAGES += \
-    android.hardware.light@2.0-service.xiaomi_beryllium
+    android.hardware.light@2.0-service.xiaomi_equuleus
 
 # Listen
 PRODUCT_VENDOR_PROPERTIES += \
@@ -376,14 +377,14 @@ PRODUCT_PACKAGES += \
 
 # Overlays
 PRODUCT_PACKAGES += \
-    AOSPABerylliumFrameworksOverlay \
-    AOSPABerylliumSystemUIOverlay \
-    BerylliumCarrierConfigOverlay \
-    BerylliumFrameworksOverlay \
-    BerylliumNoCutoutOverlay \
-    BerylliumSettingsOverlay \
-    BerylliumSettingsProviderOverlay \
-    BerylliumSystemUIOverlay \
+    AOSPAEquuleusFrameworksOverlay \
+    AOSPAEquuleusSystemUIOverlay \
+    EquuleusCarrierConfigOverlay \
+    EquuleusFrameworksOverlay \
+    EquuleusNoCutoutOverlay \
+    EquuleusSettingsOverlay \
+    EquuleusSettingsProviderOverlay \
+    EquuleusSystemUIOverlay \
     WifiOverlay
 
 PRODUCT_ENFORCE_RRO_TARGETS := *
@@ -508,7 +509,7 @@ PRODUCT_VENDOR_PROPERTIES += \
     vendor.usb.product_string=Xiaomi Pocophone F1
 
 # Vendor blobs
-$(call inherit-product, vendor/xiaomi/beryllium/beryllium-vendor.mk)
+$(call inherit-product, vendor/xiaomi/equuleus/equuleus-vendor.mk)
 
 # VNDK
 PRODUCT_COPY_FILES += \
@@ -540,3 +541,7 @@ PRODUCT_SYSTEM_PROPERTIES += \
     ro.zram.first_wb_delay_mins=1440 \
     ro.zram.mark_idle_delay_mins=60 \
     ro.zram.periodic_wb_delay_hours=24
+
+# Sensors
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf

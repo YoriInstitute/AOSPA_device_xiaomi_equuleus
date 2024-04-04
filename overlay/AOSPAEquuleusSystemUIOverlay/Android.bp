@@ -5,7 +5,7 @@
 //
 
 runtime_resource_overlay {
-    name: "AOSPABerylliumSystemUIOverlay",
+    name: "AOSPAEquuleusSystemUIOverlay",
     sdk_version: "current",
     vendor: true,
 }

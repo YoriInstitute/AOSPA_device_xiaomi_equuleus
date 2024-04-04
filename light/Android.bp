@@ -15,9 +15,9 @@
 cc_binary {
     relative_install_path: "hw",
     defaults: ["hidl_defaults"],
-    name: "android.hardware.light@2.0-service.xiaomi_beryllium",
-    init_rc: ["android.hardware.light@2.0-service.xiaomi_beryllium.rc"],
-    vintf_fragments: ["android.hardware.light@2.0-service.xiaomi_beryllium.xml"],
+    name: "android.hardware.light@2.0-service.xiaomi_equuleus",
+    init_rc: ["android.hardware.light@2.0-service.xiaomi_equuleus.rc"],
+    vintf_fragments: ["android.hardware.light@2.0-service.xiaomi_equuleus.xml"],
     overrides: ["android.hardware.lights-service.qti"],
     srcs: ["service.cpp", "Light.cpp"],
     vendor: true,

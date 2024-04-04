@@ -4,7 +4,7 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.android.internal.display.cutout.emulation.beryllium.noCutout"
+    package="com.android.internal.display.cutout.emulation.equuleus.noCutout"
 	android:versionCode="1"
 	android:versionName="1.0">
 		

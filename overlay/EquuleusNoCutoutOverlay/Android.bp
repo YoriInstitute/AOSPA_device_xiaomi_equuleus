@@ -5,7 +5,8 @@
 //
 
 runtime_resource_overlay {
-    name: "BerylliumSystemUIOverlay",
+    name: "EquuleusNoCutoutOverlay",
+    theme: "DisplayCutoutNoCutout",
     sdk_version: "current",
-    vendor: true,
+    product_specific: true,
 }
