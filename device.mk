@@ -229,7 +229,13 @@ PRODUCT_SYSTEM_PROPERTIES += \
 
 # Fingerprint
 PRODUCT_PACKAGES += \
-    android.hardware.biometrics.fingerprint@2.3-service.xiaomi_equuleus
+    android.hardware.biometrics.fingerprint@2.3-service.xiaomi_equuleus \
+    android.hardware.biometrics.fingerprint@2.3.vendor \
+    vendor.xiaomi.hardware.fingerprintextension@1.0.so \
+    libkeymaster_messages.vendor \
+    libkeymaster_portable.vendor \
+    libudfpshandler \
+    vendor.goodix.hardware.biometrics.fingerprint@2.1.vendor
 
 # FM
 PRODUCT_VENDOR_PROPERTIES += \
@@ -285,17 +291,6 @@ PRODUCT_PRODUCT_PROPERTIES += \
 
 PRODUCT_SYSTEM_PROPERTIES += \
     persist.vendor.ims.disableUserAgent=0
-
-# Input
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/idc/uinput-fpc.idc:system/usr/idc/uinput-fpc.idc \
-    $(LOCAL_PATH)/configs/idc/uinput-goodix.idc:system/usr/idc/uinput-goodix.idc
-
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
-    $(LOCAL_PATH)/configs/keylayout/sdm845-tavil-snd-card_Button_Jack.kl:system/usr/keylayout/sdm845-tavil-snd-card_Button_Jack.kl \
-    $(LOCAL_PATH)/configs/keylayout/uinput-fpc.kl:system/usr/keylayout/uinput-fpc.kl \
-    $(LOCAL_PATH)/configs/keylayout/uinput-goodix.kl:system/usr/keylayout/uinput-goodix.kl
 
 # Keymaster
 PRODUCT_PACKAGES += \
@@ -499,7 +494,8 @@ PRODUCT_SHIPPING_API_LEVEL := 27
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
-    $(LOCAL_PATH)
+    $(LOCAL_PATH) \
+    hardware/xiaomi
 
 # Treble
 PRODUCT_USE_VNDK_OVERRIDE := true

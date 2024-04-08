@@ -31,4 +31,6 @@
 
     <!-- Height of the status bar header bar when on Keyguard -->
     <dimen name="status_bar_header_height_keyguard">86.0px</dimen>
+
+    <item name="fingerprint_sensor_location_fraction_y" type="fraction">70%</item>
 </resources>

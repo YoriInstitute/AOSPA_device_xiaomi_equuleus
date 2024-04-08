@@ -30,5 +30,11 @@
 
     <!--  Allow CornerHandleView and PathSpecCornerPathRenderer to decouple from corner-radius -->
     <dimen name="config_rounded_mask_size">40dp</dimen>
+    
+    <!-- Color of the UDFPS pressed view -->
+    <color name="config_udfpsColor">#00ffff</color>
+    
+    <!-- The radius of the enrollment progress bar, in dp -->
+    <integer name="config_udfpsEnrollProgressBar" translatable="false">87</integer>
 </resources>
 

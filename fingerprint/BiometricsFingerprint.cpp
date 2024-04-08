@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2017 The Android Open Source Project
- * Copyright (C) 2018-2022 The LineageOS Project
+ * Copyright (C) 2018-2020 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,54 @@
 #include <hardware/hardware.h>
 #include <hardware/hw_auth_token.h>
 #include <inttypes.h>
+#include <poll.h>
 #include <unistd.h>
+
+#include <fstream>
+#include <thread>
+
+#define COMMAND_NIT 10
+#define PARAM_NIT_FOD 1
+#define PARAM_NIT_NONE 0
+
+#define FOD_STATUS_PATH "/sys/devices/virtual/touch/tp_dev/fod_status"
+#define FOD_STATUS_ON 1
+#define FOD_STATUS_OFF 0
+
+#define DIMLAYER_HBM_PATH "/sys/devices/platform/soc/soc:qcom,dsi-display-primary/dimlayer_hbm"
+#define DIMLAYER_HBM_ON 1
+#define DIMLAYER_HBM_OFF 0
+
+#define FOD_UI_PATH "/sys/devices/platform/soc/soc:qcom,dsi-display-primary/fod_ui"
+
+namespace {
+
+template <typename T>
+static void set(const std::string& path, const T& value) {
+    std::ofstream file(path);
+    file << value;
+}
+
+static bool readBool(int fd) {
+    char c;
+    int rc;
+
+    rc = lseek(fd, 0, SEEK_SET);
+    if (rc) {
+        ALOGE("failed to seek fd, err: %d", rc);
+        return false;
+    }
+
+    rc = read(fd, &c, sizeof(char));
+    if (rc != 1) {
+        ALOGE("failed to read bool from fd, err: %d", rc);
+        return false;
+    }
+
+    return c != '0';
+}
+
+} // anonymous namespace
 
 namespace android {
 namespace hardware {
@@ -46,6 +93,32 @@ BiometricsFingerprint::BiometricsFingerprint() : mClientCallback(nullptr), mDevi
     if (!mDevice) {
         ALOGE("Can't open HAL module");
     }
+
+    std::thread([this]() {
+        int fd = open(FOD_UI_PATH, O_RDONLY);
+        if (fd < 0) {
+            ALOGE("failed to open fd, err: %d", fd);
+            return;
+        }
+
+        struct pollfd fodUiPoll = {
+            .fd = fd,
+            .events = POLLERR | POLLPRI,
+            .revents = 0,
+        };
+
+        while (true) {
+            int rc = poll(&fodUiPoll, 1, -1);
+            if (rc < 0) {
+                ALOGE("failed to poll fd, err: %d", rc);
+                continue;
+            }
+
+            mDevice->extCmd(mDevice, COMMAND_NIT, readBool(fd) ? PARAM_NIT_FOD : PARAM_NIT_NONE);
+
+            set(FOD_STATUS_PATH, readBool(fd) ? FOD_STATUS_ON : FOD_STATUS_OFF);
+        }
+    }).detach();
 }
 
 BiometricsFingerprint::~BiometricsFingerprint() {
@@ -183,6 +256,8 @@ Return<uint64_t> BiometricsFingerprint::getAuthenticatorId() {
 }
 
 Return<RequestStatus> BiometricsFingerprint::cancel() {
+    set(FOD_STATUS_PATH, FOD_STATUS_OFF);
+    set(DIMLAYER_HBM_PATH, DIMLAYER_HBM_OFF);
     return ErrorFilter(mDevice->cancel(mDevice));
 }
 
@@ -272,19 +347,11 @@ fingerprint_device_t* getDeviceForVendor(const char* class_name) {
 fingerprint_device_t* getFingerprintDevice() {
     fingerprint_device_t* fp_device;
 
-    fp_device = getDeviceForVendor("fpc");
+    fp_device = getDeviceForVendor("goodix_fod");
     if (fp_device == nullptr) {
-        ALOGE("Failed to load fpc fingerprint module");
+        ALOGE("Failed to load goodix_fod fingerprint module");
     } else {
-        setFpVendorProp("fpc");
-        return fp_device;
-    }
-
-    fp_device = getDeviceForVendor("goodix");
-    if (fp_device == nullptr) {
-        ALOGE("Failed to load goodix fingerprint module");
-    } else {
-        setFpVendorProp("goodix");
+        setFpVendorProp("goodix_fod");
         return fp_device;
     }
 
@@ -332,7 +399,15 @@ void BiometricsFingerprint::notify(const fingerprint_msg_t* msg) {
             int32_t vendorCode = 0;
             FingerprintAcquiredInfo result =
                 VendorAcquiredFilter(msg->data.acquired.acquired_info, &vendorCode);
-            ALOGD("onAcquired(%d)", result);
+            ALOGD("onAcquired(result: %d, vendorCode: %d)", result, vendorCode);
+            // vendorCode 21 means waiting for fingerprint
+            // result 0 means fingerprint detected successfully
+            if (vendorCode == 21 || vendorCode == 22 || vendorCode == 23) {
+                set(FOD_STATUS_PATH, FOD_STATUS_ON);
+            } else if (static_cast<int32_t>(result) == 0 || static_cast<int32_t>(result) == 3 || vendorCode == 44 || vendorCode == 25) {
+                set(DIMLAYER_HBM_PATH, DIMLAYER_HBM_OFF);
+                set(FOD_STATUS_PATH, FOD_STATUS_OFF);
+            }
             if (!thisPtr->mClientCallback->onAcquired(devId, result, vendorCode).isOk()) {
                 ALOGE("failed to invoke fingerprint onAcquired callback");
             }
@@ -395,16 +470,22 @@ void BiometricsFingerprint::notify(const fingerprint_msg_t* msg) {
     }
 }
 
+Return<int32_t> BiometricsFingerprint::extCmd(int32_t cmd, int32_t param) {
+    return mDevice->extCmd(mDevice, cmd, param);
+}
+
 Return<bool> BiometricsFingerprint::isUdfps(uint32_t /* sensorId */) {
-    return false;
+    return true;
 }
 
 Return<void> BiometricsFingerprint::onFingerDown(uint32_t /* x */, uint32_t /* y */,
                                                 float /* minor */, float /* major */) {
+    set(DIMLAYER_HBM_PATH, DIMLAYER_HBM_ON);
     return Void();
 }
 
 Return<void> BiometricsFingerprint::onFingerUp() {
+    set(DIMLAYER_HBM_PATH, DIMLAYER_HBM_OFF);
     return Void();
 }
 

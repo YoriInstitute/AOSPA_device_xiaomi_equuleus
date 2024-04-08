@@ -460,7 +460,9 @@ vendor/lib64/vendor.qti.esepowermanager@1.1.so|f111cf42439d28fe88d9ebf6b6a1c44b7
 vendor/lib64/hw/fingerprint.goodix_fod.so:vendor/lib64/hw/fingerprint.goodix_fod.sdm845.so
 vendor/lib64/libgf_ca_gf9118.so
 vendor/lib64/libgf_hal_gf9118.so
+vendor/lib64/libgoodixhwfingerprint_gf9118.so
 vendor/lib64/vendor.goodix.hardware.biometrics.fingerprint@2.1.so
+vendor/lib64/libgoodixhwfingerprint_gf9118.so
 
 # Gatekeeper
 vendor/bin/hw/android.hardware.gatekeeper@1.0-service-qti
