@@ -243,6 +243,9 @@ on boot
 
     chown system system /sys/class/drm/card0-DSI-1/disp_param
     chmod 0700 /sys/class/drm/card0-DSI-1/disp_param
+    
+    chown system system /sys/devices/platform/soc/soc:qcom,dsi-display-primary/fod_ui
+    chmod 0644 /sys/devices/platform/soc/soc:qcom,dsi-display-primary/fod_ui
 
     chown system system /sys/class/thermal/thermal_message/sconfig
     chown root system /sys/bus/i2c/devices/3-0050/pressure
@@ -443,6 +446,15 @@ on post-fs-data
 
     start vendor.qcrild
     start vendor.qcrild2
+
+    # Create directories for fingerprint
+    mkdir /data/vendor/fpc 0770 system system
+    mkdir /data/vendor/goodix 0770 system system
+    mkdir /data/vendor/goodix/gf_data/authenticate 0770 system system
+    mkdir /data/vendor/goodix/gf_data/enroll 0770 system system
+    mkdir /data/vendor/syna 0770 system system
+    mkdir /data/vendor/syna/ist/ 0770 system system
+    chown system system /data/vendor
 
 on property:ro.boot.dp=0x0
     write  /sys/bus/platform/devices/c440000.qcom,spmi:qcom,pm8998@0:qcom,power-on@800/pshold_reboot 7
