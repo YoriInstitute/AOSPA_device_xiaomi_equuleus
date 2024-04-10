@@ -236,6 +236,10 @@ PRODUCT_PACKAGES += \
     libkeymaster_portable.vendor \
     libudfpshandler \
     vendor.goodix.hardware.biometrics.fingerprint@2.1.vendor
+    
+PRODUCT_SYSTEM_EXT_PROPERTIES += \
+    persist.vendor.sys.fp.udfps.location.X_Y=453,1640 \
+    persist.vendor.sys.fp.udfps.size.width_height=173,173
 
 # FM
 PRODUCT_VENDOR_PROPERTIES += \
@@ -482,6 +486,7 @@ PRODUCT_SYSTEM_PROPERTIES += \
 
 # Sensors
 PRODUCT_PACKAGES += \
+    android.frameworks.sensorservice@1.0.vendor \
     android.hardware.sensors@1.0-impl:64 \
     android.hardware.sensors@1.0-service \
     libsensorndkbridge
