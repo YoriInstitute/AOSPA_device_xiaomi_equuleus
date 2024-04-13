@@ -457,7 +457,8 @@ TARGET_COMMON_QTI_COMPONENTS += \
     telephony \
     usb \
     vibrator \
-    wfd
+    wfd \
+    nq-nfc
 
 TARGET_GPS_COMPONENT_VARIANT := gps
 
@@ -546,3 +547,8 @@ PRODUCT_SYSTEM_PROPERTIES += \
 # Sensors
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
+
+# NFC
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/nfc/libnfc-nxp_RF.conf:$(TARGET_COPY_OUT_VENDOR)/libnfc-nxp_RF.conf \
+    $(LOCAL_PATH)/configs/nfc/libnfc-nxp.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nxp.conf
