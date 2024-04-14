@@ -109,6 +109,8 @@ vendor/lib/hw/android.hardware.bluetooth@1.0-impl-qti.so
 vendor/lib/libbtnv.so
 vendor/lib64/hw/android.hardware.bluetooth@1.0-impl-qti.so
 vendor/lib64/libbtnv.so
+vendor/lib/android.hardware.bluetooth.audio-impl.so
+vendor/lib64/android.hardware.bluetooth.audio-impl.so
 
 # Bluetooth (A2DP)
 vendor/lib/hw/vendor.qti.hardware.bluetooth_audio@2.0-impl.so
@@ -428,6 +430,7 @@ vendor/lib/libqisl.so|8da3650f2c43fd1588ea24cdf8b51ae337dc824d
 vendor/lib/librpmb.so|95a388eaff556447fa7b374cde5768bd3d9915c2
 vendor/lib/libsecureui.so|13162732b9990a9f8bdc26566403a53e357807c9
 vendor/lib/libsecureui_svcsock.so|fd78cdbe3f2e2349b07872cc1116f90a519db054
+vendor/lib/libspl.so
 vendor/lib/libssd.so|020e0fa5d6ecf28125911d3bad4519556d2d9b31
 vendor/lib/libtzdrmgenprov.so|801f47e12d529189b2d30dd4f373ba267b250859
 vendor/lib64/libGPreqcancel.so|cef7983d5aceb03b4c422731c838ead1a8f3fed4
@@ -443,6 +446,7 @@ vendor/lib64/libqisl.so|529d7e20bb33147fe3404c1a58d266e49228046a
 vendor/lib64/librpmb.so|fe965bdb4c1630dd1985861e65a2fafec355715a
 vendor/lib64/libsecureui.so|39e1b811126765e119daf891420d6f6a5dc47765
 vendor/lib64/libsecureui_svcsock.so|2232f56927964f10d41868919d94711930d50ed0
+vendor/lib64/libspl.so
 vendor/lib64/libssd.so|aebe668e327fcf30bf0f2afacfdc3cc469043e5e
 vendor/lib64/libtzdrmgenprov.so|ff8f9eadd70b0ae366a68848c9c71d37a8b75317
 
