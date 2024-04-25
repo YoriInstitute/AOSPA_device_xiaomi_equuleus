@@ -229,9 +229,7 @@ PRODUCT_SYSTEM_PROPERTIES += \
 
 # Fingerprint
 PRODUCT_PACKAGES += \
-    android.hardware.biometrics.fingerprint@2.3-service.xiaomi_equuleus \
-    android.hardware.biometrics.fingerprint@2.3.vendor \
-    vendor.xiaomi.hardware.fingerprintextension@1.0.so \
+    android.hardware.biometrics.fingerprint@2.3-service.xiaomi \
     libkeymaster_messages.vendor \
     libkeymaster_portable.vendor \
     libudfpshandler \
