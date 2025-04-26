@@ -5,4 +5,4 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/lineage_equuleus.mk
+    $(LOCAL_DIR)/aospa_equuleus.mk
